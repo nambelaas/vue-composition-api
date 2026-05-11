@@ -1,28 +1,30 @@
 <script lang="ts">
-import { ref, reactive, toRef, toRefs } from 'vue'
+import { computed, ref, reactive, toRef, toRefs } from 'vue'
 
 export default {
   setup() {
-    const message = ref('Hello')
-    const quantity = ref(0) // dipake untuk struktur data yang sederhana
+    const message = ref('Hello')  // dipake untuk struktur data yang sederhana
     const item = reactive({
       name: 'Product 1',
       price: 100,
+      quantity: 1
     }) // dipake untuk struktur data yang kompleks, seperti object atau array
 
-    const increment = () => quantity.value++
+    const increment = () => item.quantity++
     const decrement = () => {
-      if (quantity.value > 0) {
-        return quantity.value--
+      if (item.quantity > 0) {
+        return item.quantity--
       }
 
-      return quantity.value
+      return item.quantity
     }
 
     const swapProduct = () => {
       item.name = 'Product 2'
       item.price = 150
     }
+
+    const total = computed(() => item.price * item.quantity)
 
     // const nameRef = toRef(item, 'name')
 
@@ -32,7 +34,7 @@ export default {
 
     // console.log('nameRef:', nameRef.value)
 
-    const { name, price } = toRefs(item)
+    const { name, price, quantity } = toRefs(item)
 
     // console.log('Name:', itemRefs.name.value)
     // console.log('Price:', itemRefs.price.value)
@@ -45,12 +47,13 @@ export default {
 
     return {
       message,
-      quantity,
       increment,
       decrement,
       name,
       price,
+      quantity,
       swapProduct,
+      total,
     }
   },
 }
@@ -58,8 +61,41 @@ export default {
 
 <template>
   <h1>{{ name }} : {{ price }}</h1>
-  <button @click="swapProduct">Swap Product</button>
-  <h2>{{ quantity }}</h2>
-  <button @click="increment">+</button>
-  <button @click="decrement">-</button>
+  <div class="flex gap-2 my-2">
+    <button
+      @click="swapProduct"
+      class="border border-gray-200 py-2 px-4 rounded-md cursor-pointer hover:bg-gray-100"
+    >
+      Swap Product
+    </button>
+    <button
+      @click="price++"
+      class="border border-green-500 py-2 px-4 rounded-md cursor-pointer bg-green-300 hover:bg-green-400 text-green-800"
+    >
+      Increase Price
+    </button>
+    <button
+      @click="price--"
+      class="border border-red-500 py-2 px-4 rounded-md cursor-pointer bg-red-300 hover:bg-red-400 text-green-800"
+    >
+      Decrease Price
+    </button>
+  </div>
+
+  <h2>Quantity: {{ quantity }}</h2>
+  <div class="flex gap-2 my-2">
+    <button
+      @click="increment"
+      class="border border-gray-200 py-2 px-4 rounded-md cursor-pointer hover:bg-gray-100"
+    >
+      +
+    </button>
+    <button
+      @click="decrement"
+      class="border border-gray-200 py-2 px-4 rounded-md cursor-pointer hover:bg-gray-100"
+    >
+      -
+    </button>
+  </div>
+  <h2>Total: {{ total }}</h2>
 </template>
