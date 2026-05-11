@@ -1,13 +1,13 @@
 <script lang="ts">
-import { computed, ref, reactive, toRef, toRefs } from 'vue'
+import { computed, ref, reactive, toRef, toRefs, watch, watchEffect } from 'vue'
 
 export default {
   setup() {
-    const message = ref('Hello')  // dipake untuk struktur data yang sederhana
+    const message = ref('Hello') // dipake untuk struktur data yang sederhana
     const item = reactive({
       name: 'Product 1',
       price: 100,
-      quantity: 1
+      quantity: 1,
     }) // dipake untuk struktur data yang kompleks, seperti object atau array
 
     const increment = () => item.quantity++
@@ -44,6 +44,20 @@ export default {
 
     // console.log('Name:', itemRefs.name.value)
     // console.log('Price:', itemRefs.price.value)
+
+    watch(
+      () => item.quantity,
+      () => {
+        if (item.quantity == 5) {
+          alert('Maximum quantity reached!')
+        }
+      },
+      { immediate: true },
+    )
+
+    watchEffect(() => {
+      console.log('Price change: ', item.price)
+    })
 
     return {
       message,
