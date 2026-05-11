@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs, onMounted, onUpdated, onUnmounted } from 'vue'
 
 export default {
   name: 'CartItem',
@@ -53,6 +53,18 @@ export default {
     const { name, price, quantity } = toRefs(item)
 
     const remove = () => emit('remove', item)
+
+    onMounted(() => {
+      console.log('Component mounted.')
+    })
+
+    onUpdated(() => {
+      console.log('Component updated.')
+    })
+
+    onUnmounted(() => {
+      console.log('Component unmounted.')
+    })
 
     return {
       increment,
