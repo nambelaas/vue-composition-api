@@ -1,7 +1,11 @@
 <script lang="ts">
 import { computed, ref, reactive, toRef, toRefs, watch, watchEffect } from 'vue'
+import CartItem from './components/CartItem.vue'
 
 export default {
+  components: {
+    CartItem,
+  },
   setup() {
     const message = ref('Hello') // dipake untuk struktur data yang sederhana
     const item = reactive({
@@ -59,6 +63,23 @@ export default {
       console.log('Price change: ', item.price)
     })
 
+    const items = reactive([
+      {
+        id: 1,
+        name: 'Product 1',
+        price: 100,
+        quantity: 1,
+      },
+      {
+        id: 2,
+        name: 'Product 2',
+        price: 130,
+        quantity: 1,
+      },
+    ])
+
+    const handleRemove = (data: Array<Object>) => items.splice(0, 1)
+
     return {
       message,
       increment,
@@ -68,13 +89,15 @@ export default {
       quantity,
       swapProduct,
       total,
+      items,
+      handleRemove,
     }
   },
 }
 </script>
 
 <template>
-  <h1>{{ name }} : {{ price }}</h1>
+  <!-- <h1>{{ name }} : {{ price }}</h1>
   <div class="flex gap-2 my-2">
     <button
       @click="swapProduct"
@@ -111,5 +134,7 @@ export default {
       -
     </button>
   </div>
-  <h2>Total: {{ total }}</h2>
+  <h2>Total: {{ total }}</h2> -->
+
+  <CartItem v-for="item in items" :cart-item="item" :key="item.id" @remove="handleRemove" />
 </template>
