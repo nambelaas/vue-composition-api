@@ -1,12 +1,22 @@
 <script lang="ts">
 import { computed, ref, reactive, toRef, toRefs, watch, watchEffect } from 'vue'
 import CartItem from './components/CartItem.vue'
+import useCart from './useCart'
 
 export default {
   components: {
     CartItem,
   },
   setup() {
+    const { items, addItem, removeItem } = useCart()
+
+    addItem({
+      id: 1,
+      name: 'Product 1',
+      price: 100,
+      quantity: 1,
+    })
+
     const message = ref('Hello') // dipake untuk struktur data yang sederhana
     const item = reactive({
       name: 'Product 1',
@@ -63,22 +73,22 @@ export default {
       console.log('Price change: ', item.price)
     })
 
-    const items = reactive([
-      {
-        id: 1,
-        name: 'Product 1',
-        price: 100,
-        quantity: 1,
-      },
-      {
-        id: 2,
-        name: 'Product 2',
-        price: 130,
-        quantity: 1,
-      },
-    ])
+    // const items = reactive([
+    //   {
+    //     id: 1,
+    //     name: 'Product 1',
+    //     price: 100,
+    //     quantity: 1,
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'Product 2',
+    //     price: 130,
+    //     quantity: 1,
+    //   },
+    // ])
 
-    const handleRemove = (data: Array<Object>) => items.splice(0, 1)
+    // const handleRemove = (data: Array<Object>) => items.splice(0, 1)
 
     return {
       message,
@@ -90,7 +100,8 @@ export default {
       swapProduct,
       total,
       items,
-      handleRemove,
+      // handleRemove,
+      removeItem,
     }
   },
 }
@@ -136,5 +147,5 @@ export default {
   </div>
   <h2>Total: {{ total }}</h2> -->
 
-  <CartItem v-for="item in items" :cart-item="item" :key="item.id" @remove="handleRemove" />
+  <CartItem v-for="item in items" :cart-item="item" :key="item.id" @remove="removeItem" />
 </template>
