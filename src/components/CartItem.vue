@@ -24,57 +24,44 @@
   <h2>Total: {{ total }}</h2>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { computed, reactive, toRefs, onMounted, onUpdated, onUnmounted } from 'vue'
 
-export default {
-  name: 'CartItem',
-  props: {
-    cartItem: {
-      type: Object,
-      required: true,
-    },
+const props = defineProps({
+  cartItem: {
+    type: Object,
+    required: true,
   },
-  emits: ['remove'],
-  setup(props, { emit }) {
-    const item = reactive(props.cartItem)
+})
 
-    const increment = () => item.quantity++
-    const decrement = () => {
-      if (item.quantity > 0) {
-        return item.quantity--
-      }
+const emit = defineEmits(['remove'])
 
-      return item.quantity
-    }
+const item = reactive(props.cartItem)
 
-    const total = computed(() => item.price * item.quantity)
+const increment = () => item.quantity++
+const decrement = () => {
+  if (item.quantity > 0) {
+    return item.quantity--
+  }
 
-    const { name, price, quantity } = toRefs(item)
-
-    const remove = () => emit('remove', item)
-
-    onMounted(() => {
-      console.log('Component mounted.')
-    })
-
-    onUpdated(() => {
-      console.log('Component updated.')
-    })
-
-    onUnmounted(() => {
-      console.log('Component unmounted.')
-    })
-
-    return {
-      increment,
-      decrement,
-      total,
-      name,
-      price,
-      quantity,
-      remove,
-    }
-  },
+  return item.quantity
 }
+
+const total = computed(() => item.price * item.quantity)
+
+const { name, price, quantity } = toRefs(item)
+
+const remove = () => emit('remove', item)
+
+onMounted(() => {
+  console.log('Component mounted.')
+})
+
+onUpdated(() => {
+  console.log('Component updated.')
+})
+
+onUnmounted(() => {
+  console.log('Component unmounted.')
+})
 </script>

@@ -1,110 +1,125 @@
-<script lang="ts">
-import { computed, ref, reactive, toRef, toRefs, watch, watchEffect } from 'vue'
+<script setup lang="ts">
 import CartItem from './components/CartItem.vue'
 import useCart from './useCart'
 
-export default {
-  components: {
-    CartItem,
-  },
-  setup() {
-    const { items, addItem, removeItem } = useCart()
+const { items, addItem, removeItem } = useCart()
 
-    addItem({
-      id: 1,
-      name: 'Product 1',
-      price: 100,
-      quantity: 1,
-    })
+addItem({
+  id: 1,
+  name: 'Product 1',
+  price: 100,
+  quantity: 1,
+})
+</script>
 
-    const message = ref('Hello') // dipake untuk struktur data yang sederhana
-    const item = reactive({
-      name: 'Product 1',
-      price: 100,
-      quantity: 1,
-    }) // dipake untuk struktur data yang kompleks, seperti object atau array
+<script lang="ts">
+// import { computed, ref, reactive, toRef, toRefs, watch, watchEffect } from 'vue'
+// import CartItem from './components/CartItem.vue'
+// import useCart from './useCart'
 
-    const increment = () => item.quantity++
-    const decrement = () => {
-      if (item.quantity > 0) {
-        return item.quantity--
-      }
+// export default {
+//   components: {
+//     CartItem,
+//   },
+//   setup() {
+//     const { items, addItem, removeItem } = useCart()
 
-      return item.quantity
-    }
+//     addItem({
+//       id: 1,
+//       name: 'Product 1',
+//       price: 100,
+//       quantity: 1,
+//     })
 
-    const swapProduct = () => {
-      item.name = 'Product 2'
-      item.price = 150
-    }
+// dipake untuk struktur data yang sederhana
+// const message = ref('Hello')
+// dipake untuk struktur data yang kompleks, seperti object atau array
+// const item = reactive({
+//   name: 'Product 1',
+//   price: 100,
+//   quantity: 1,
+// })
+// const increment = () => item.quantity++
+// const decrement = () => {
+//   if (item.quantity > 0) {
+//     return item.quantity--
+//   }
 
-    const total = computed(() => item.price * item.quantity)
+//   return item.quantity
+// }
 
-    // const nameRef = toRef(item, 'name')
+// const swapProduct = () => {
+//   item.name = 'Product 2'
+//   item.price = 150
+// }
 
-    // console.log('nameRef:', nameRef.value)
+// const total = computed(() => item.price * item.quantity)
 
-    // item.name = 'Product 3'
+// const nameRef = toRef(item, 'name')
 
-    // console.log('nameRef:', nameRef.value)
+// console.log('nameRef:', nameRef.value)
 
-    const { name, price, quantity } = toRefs(item)
+// item.name = 'Product 3'
 
-    // console.log('Name:', itemRefs.name.value)
-    // console.log('Price:', itemRefs.price.value)
+// console.log('nameRef:', nameRef.value)
 
-    // item.name = 'Product 5'
-    // item.price = 50
+// const { name, price, quantity } = toRefs(item)
 
-    // console.log('Name:', itemRefs.name.value)
-    // console.log('Price:', itemRefs.price.value)
+// console.log('Name:', itemRefs.name.value)
+// console.log('Price:', itemRefs.price.value)
 
-    watch(
-      () => item.quantity,
-      () => {
-        if (item.quantity == 5) {
-          alert('Maximum quantity reached!')
-        }
-      },
-      { immediate: true },
-    )
+// item.name = 'Product 5'
+// item.price = 50
 
-    watchEffect(() => {
-      console.log('Price change: ', item.price)
-    })
+// console.log('Name:', itemRefs.name.value)
+// console.log('Price:', itemRefs.price.value)
 
-    // const items = reactive([
-    //   {
-    //     id: 1,
-    //     name: 'Product 1',
-    //     price: 100,
-    //     quantity: 1,
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Product 2',
-    //     price: 130,
-    //     quantity: 1,
-    //   },
-    // ])
+// watch(
+//   () => item.quantity,
+//   () => {
+//     if (item.quantity == 5) {
+//       alert('Maximum quantity reached!')
+//     }
+//   },
+//   { immediate: true },
+// )
 
-    // const handleRemove = (data: Array<Object>) => items.splice(0, 1)
+// watchEffect(() => {
+//   console.log('Price change: ', item.price)
+// })
 
-    return {
-      message,
-      increment,
-      decrement,
-      name,
-      price,
-      quantity,
-      swapProduct,
-      total,
-      items,
-      // handleRemove,
-      removeItem,
-    }
-  },
-}
+// const items = reactive([
+//   {
+//     id: 1,
+//     name: 'Product 1',
+//     price: 100,
+//     quantity: 1,
+//   },
+//   {
+//     id: 2,
+//     name: 'Product 2',
+//     price: 130,
+//     quantity: 1,
+//   },
+// ])
+
+// const handleRemove = (data: Array<Object>) => items.splice(0, 1)
+
+//     return {
+//       message,
+//       increment,
+//       decrement,
+//       name,
+//       price,
+//       quantity,
+//       swapProduct,
+//       total,
+//       items,
+//       // handleRemove,
+//       removeItem,
+//     }
+//   },
+// }
 </script>
 
 <template>
